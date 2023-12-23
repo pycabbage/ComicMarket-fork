@@ -145,3 +145,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 .vercel
+.env*.local
+
+# Sentry Config File
+.sentryclirc

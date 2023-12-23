@@ -10,7 +10,7 @@ const withPWA = require("next-pwa")({
   skipWaiting: true,
   disable: process.env.NODE_ENV === 'development'
 });
-const sentryWebpackPlugin = require("@sentry/webpack-plugin");
+const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
 
 const isProd = process.env.NODE_ENV === "production"
 
@@ -42,14 +42,14 @@ const nextConfig = {
   ) {
     if (config.plugins instanceof Array && process.env.NODE_ENV === 'production') {
       config.plugins.push(
-        new sentryWebpackPlugin({
+        sentryWebpackPlugin({
           org: "cabbagelettuce916",
           project: "comicmarket",
 
           // Auth tokens can be obtained from https://sentry.io/settings/account/api/auth-tokens/
           // and need `project:releases` and `org:read` scopes
           authToken: process.env.SENTRY_AUTH_TOKEN,
-          include: '.next',
+          // include: '.next',
         }),
       )
     }
@@ -67,7 +67,7 @@ const sentryWebpackPluginOptions = {
   //   release, url, configFile, stripPrefix, urlPrefix, include, ignore
 
   org: "cabbagelettuce916",
-  project: "comicmarket",
+  project: "comic-market-fork",
 
   // An auth token is required for uploading source maps.
   // You can get an auth token from https://sentry.io/settings/account/api/auth-tokens/
