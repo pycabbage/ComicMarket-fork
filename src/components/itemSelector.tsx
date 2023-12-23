@@ -1,4 +1,5 @@
 import { ItemWithID } from "@/lib/types";
+import { For } from "million/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 interface ItemSelectorComponentProps {
@@ -24,7 +25,7 @@ function ItemSelectorComponent(props: ItemSelectorComponentProps) {
         <div className="w-3/5 flex justify-center">価格</div>
       </li>
 
-      {items.length > 0 ? items.map((item, i) => (
+      {items.length > 0 ? <For each={items}>{(item, i) => (
         <li
           className="flex flex-row mt-2 rounded-lg hover:bg-neutral-focus active:bg-neutral transition-[background-color] p-2 cursor-pointer select-none"
           onPointerDown={() => {
@@ -35,14 +36,14 @@ function ItemSelectorComponent(props: ItemSelectorComponentProps) {
           <div className="w-3/5 max-w-[40%] pl-2 overflow-hidden whitespace-nowrap overflow-ellipsis justify-center">{item.name}</div>
           <div className="w-3/5 flex justify-center">{item.price}円</div>
         </li>
-      )) : <div className="flex justify-center my-6">No Data</div>}
+      )}</For> : <div className="flex justify-center my-6">No Data</div>}
     </ul>
   )
 }
 
 interface ItemSelectorProps extends ItemSelectorComponentProps {
 }
-export default function ItemSelector({items, onChange, ...props}: ItemSelectorProps) {
+export default function ItemSelector({ items, onChange, ...props }: ItemSelectorProps) {
   const modalRef = useRef<HTMLDialogElement>(null)
   return (
     <Fragment>

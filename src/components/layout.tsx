@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { HTMLAttributes, useEffect } from "react";
 import HumbergerIcon from "./HumbergerIcon";
 import Auth from "./auth";
+import { For } from "million/react";
 
 interface LayoutProps extends HTMLAttributes<HTMLDivElement> {
   /** ページタイトル */
@@ -76,11 +77,11 @@ export default function Layout({ center = false, ...props }: LayoutProps) {
         </div>
         <div className={`p-4`}>
           <div className={`w-full h-full ${center ? "flex justify-center" : "block"}`}>
-          {(state === "logouted" || !loginNotNeededPaths.some(path => path.test(router.pathname)))
-            ? props.children
-            : <div>
-              Waiting for user data ...
-            </div>}
+            {(state === "logouted" || !loginNotNeededPaths.some(path => path.test(router.pathname)))
+              ? props.children
+              : <div>
+                Waiting for user data ...
+              </div>}
           </div>
         </div>
       </div>
@@ -88,13 +89,13 @@ export default function Layout({ center = false, ...props }: LayoutProps) {
         <label htmlFor="page-drawer" className="drawer-overlay"></label>
         <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
           {
-            menuItems.map((item, index) => (
+            <For each={menuItems}>{(item, index) => (
               <li key={`${index}-${item.title}`}>
                 <Link href={item.href} className="link">
                   {item.title}
                 </Link>
               </li>
-            ))
+            )}</For>
           }
         </ul>
       </div>

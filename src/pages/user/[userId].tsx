@@ -5,6 +5,7 @@ import Priority from "@/components/priority";
 import { getAllCircles, getAllItems, getUser, removeBuyer, updatePriority } from "@/lib/db";
 import { CircleWithID, ItemWithID, UserdataWithID } from "@/lib/types";
 import { circleToDatePlaceString, filterDeletedCircleItem, getCircleById, sortItemByDP, sortItemByPriority } from "@/lib/utils";
+import { For } from "million/react";
 import { NextPageContext } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -131,7 +132,7 @@ export default function User(props: UserProps) {
                 データなし
               </td>
             </tr>
-            : items.map((item, i) => item.users.map((user, j) => user.uid == props.user.id ? (
+            : <For each={items}>{(item, i) => <For each={item.users}>{(user, j) => user.uid == props.user.id ? (
               <tr key={`${i}-${j}`}>
                 <td>
                   <Link href={`/circle/${item.circleId}`}>
@@ -192,7 +193,7 @@ export default function User(props: UserProps) {
                   </button>
                 </td>
               </tr>
-            ) : null))}
+            ) : <></>}</For>}</For>}
         </tbody>
       </table>
     </div>

@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useRef, useState } from "react";
-
+import { For } from 'million/react';
 
 interface ItemProps {
   circle: CircleWithID;
@@ -87,7 +87,7 @@ export default function Circle(props: ItemProps) {
                       setCircle(newCircle)
                       updateCircle(newCircle, circle.id)
                     }}
-                    />
+                  />
                 ))
               }
             </div>
@@ -170,36 +170,41 @@ export default function Circle(props: ItemProps) {
                 No data found
               </td>
             </tr>
-            : items.map((item, i) => item.users.map((user, j) => (
-              <tr key={`${i}-${j}`}>
-                <td>
-                  <Link href={`/user/${user.uid}`}>
-                    {props.users.find(u => u.id === user.uid)?.name}
-                  </Link>
-                </td>
-                <td>
-                  <Link href={`/item/${item.id}`}>
-                    {item.name}
-                  </Link>
-                </td>
-                <td>{user.count}</td>
-                <td>
-                  <Priority
-                    name={`item-${i}_user-${j}`}
-                    priority={user.priority}
-                    onChange={async (priority) => {
-                      setSending(true)
-                      await updatePriority(item.id, user.uid, priority)
-                      setItems(prevItems => {
-                        prevItems[i].users[j].priority = priority
-                        return prevItems
-                      })
-                      setSending(false)
-                    }}
-                  />
-                </td>
-              </tr>
-            )))}
+            : <For each={items}>{
+              (item, i) => <For each={item.users}>{
+                (user, j) => (
+                  <tr key={`${i}-${j}`}>
+                    <td>
+                      <Link href={`/user/${user.uid}`}>
+                        {props.users.find(u => u.id === user.uid)?.name}
+                      </Link>
+                    </td>
+                    <td>
+                      <Link href={`/item/${item.id}`}>
+                        {item.name}
+                      </Link>
+                    </td>
+                    <td>{user.count}</td>
+                    <td>
+                      <Priority
+                        name={`item-${i}_user-${j}`}
+                        priority={user.priority}
+                        onChange={async (priority) => {
+                          setSending(true)
+                          await updatePriority(item.id, user.uid, priority)
+                          setItems(prevItems => {
+                            prevItems[i].users[j].priority = priority
+                            return prevItems
+                          })
+                          setSending(false)
+                        }}
+                      />
+                    </td>
+                  </tr>
+                )
+              }</For>
+            }</For>
+          }
         </tbody>
       </table>
     </div>

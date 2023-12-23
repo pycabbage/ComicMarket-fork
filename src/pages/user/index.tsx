@@ -5,6 +5,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import Head from "next/head";
+import { For } from "million/react";
 
 User.getInitialProps = async (ctx: NextPageContext): Promise<UserProps> => {
   return {
@@ -39,7 +40,7 @@ export default function User(props: UserProps) {
                   データなし
                 </td>
               </tr>
-              : props.users.map((user, i) => (
+              : <For each={props.users}>{(user, i) => (
                 <tr key={i}>
                   <td className="avatar w-16 mr-0 rounded-full">
                     {user.photoURL &&
@@ -58,9 +59,8 @@ export default function User(props: UserProps) {
                     </Link>
                   </td>
                 </tr>
-              ))
+              )}</For>
           }
-
         </tbody>
       </table>
     </div>

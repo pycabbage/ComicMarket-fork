@@ -4,6 +4,7 @@ import Priority from "@/components/priority";
 import { getAllCircles, getAllItems, getAllUsers } from "@/lib/db";
 import { CircleWithID, ItemWithID, UserdataWithID } from "@/lib/types";
 import { circleToDatePlaceString, filterItemsByCircles, sortItemByDP } from "@/lib/utils";
+import { For } from "million/react";
 import { NextPageContext } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -54,7 +55,7 @@ export default function ItemList(props: ItemListProps) {
             </tr>
           </thead>
           <tbody>
-            {items.map((item, i) => {
+            {<For each={items}>{(item, i) => {
               const circle = props.circles.find(c => c.id === item.circleId)
               const highestPriority = item.users.map(u => u.priority).sort((a, b) => b - a)[0]
               if (circle == null) return <tr key={`${item.id}-${i}`}>
@@ -79,11 +80,11 @@ export default function ItemList(props: ItemListProps) {
                     {item.price}円
                   </td>
                   <td className="">
-                    {item.users.map((user, index, allUsers) => (
-                      <Link href={`/user/${user.uid}`} key={index} className={`${allUsers.length - 1 !== index && `after:content-[',']`} mr-2`}>
+                    {<For each={item.users}>{(user, index) => (
+                      <Link href={`/user/${user.uid}`} key={index} className={`${item.users.length - 1 !== index && `after:content-[',']`} mr-2`}>
                         {props.users.find(u => u.id === user.uid)?.name}
                       </Link>
-                    ))}
+                    )}</For>}
                   </td>
                   <td>
                     {highestPriority && <Priority
@@ -94,7 +95,7 @@ export default function ItemList(props: ItemListProps) {
                   </td>
                 </tr>
               )
-            })}
+            }}</For>}
           </tbody>
         </table>
         <p className="text-xs mt-4 ml-4 text-gray-500">サークルによる絞り込みは出店日・出店場所を無視します。</p>

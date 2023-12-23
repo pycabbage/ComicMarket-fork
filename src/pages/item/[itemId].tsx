@@ -4,6 +4,7 @@ import Priority from "@/components/priority";
 import { getAllUsers, getCircle, getItem, removeBuyer, updatePriority } from "@/lib/db";
 import { CircleWithID, ItemWithID, UserdataWithID } from "@/lib/types";
 import { circleWingToString } from "@/lib/utils";
+import { For } from "million/react";
 import { NextPageContext } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -30,7 +31,7 @@ export default function Item(props: ItemProps) {
   const [item, setItem] = useState<ItemWithID>(props.item)
   const [sending, setSending] = useState(false)
 
-return (<Layout title="購入物詳細">
+  return (<Layout title="購入物詳細">
     <Head>
       <title>{`${item.name} | 購入物詳細`}</title>
     </Head>
@@ -57,7 +58,7 @@ return (<Layout title="購入物詳細">
         </thead>
         <tbody>
           {
-            item.users.map((user, i) => (
+            <For each={item.users}>{(user, i) => (
               <tr key={i}>
                 <td>
                   <Link href={`/user/${user.uid}`}>
@@ -82,10 +83,10 @@ return (<Layout title="購入物詳細">
                   />
                 </td>
                 <td>
-                  <button className="btn btn-outline btn-sm btn-square btn-ghost" onClick={e=>{
+                  <button className="btn btn-outline btn-sm btn-square btn-ghost" onClick={e => {
                     e.preventDefault()
                     setProcessing(true)
-                    removeBuyer(item.id, user.uid).then(()=>{
+                    removeBuyer(item.id, user.uid).then(() => {
                       setProcessing(false)
                       setItem(prev => ({
                         ...prev,
@@ -97,7 +98,7 @@ return (<Layout title="購入物詳細">
                   </button>
                 </td>
               </tr>
-            ))
+            )}</For>
           }
         </tbody>
       </table>
