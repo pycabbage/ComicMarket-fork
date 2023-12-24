@@ -58,9 +58,9 @@ export default function AddItem(props: AddItemProps) {
               <span className="label-text">購入物名</span>
               <span className="label-text">
                 表記ゆれがある場合は、一番簡潔かつ判別できる表記を使用してください。<br />
-                例 : 
+                例 :
                 <ul className="list-disc ml-4">
-                  <li>C102新刊セット → 新刊セット</li>
+                  <li>C103新刊セット → 新刊セット</li>
                 </ul>
                 また、入力前に上のボタンから既に登録された購入物がないかご確認ください。
               </span>
@@ -90,7 +90,7 @@ export default function AddItem(props: AddItemProps) {
           <Fragment>
             <div className="divider"></div>
             <div className="alert alert-warning">
-              以前にこの購入物を登録しています : {item.users.find(u => u.uid === user?.uid)?.count}個<br/>
+              以前にこの購入物を登録しています : {item.users.find(u => u.uid === user?.uid)?.count}個<br />
               このまま登録を続ければ、以前の登録は上書きされます。
             </div>
           </Fragment>
