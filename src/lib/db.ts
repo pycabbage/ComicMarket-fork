@@ -1,6 +1,6 @@
 import { User } from "firebase/auth";
 import {
-  Firestore,
+  type Firestore,
   collection as _collection,
   doc as _doc,
   getDoc,
@@ -9,14 +9,14 @@ import {
   setDoc,
   where
 } from "firebase/firestore";
-import { getDownloadURL, ref as _ref, uploadBytes, FirebaseStorage } from "firebase/storage";
+import { getDownloadURL, ref as _ref, uploadBytes, type FirebaseStorage } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { firestore, storage } from "./firebase";
 import { Circle, CircleWithID, Item, ItemWithID, Userdata, UserdataWithID, circle, circleWithID, item, itemWithID } from "./types";
 import { z } from "zod";
 
 function isDev() {
-  return false
+  // return false
   const condition = process.env.NODE_ENV === "development"
   if (condition) {
     console.log("[db] firestore now dev mode")
@@ -25,18 +25,18 @@ function isDev() {
 }
 
 function doc(firestore: Firestore, path: string, ...pathSegments: string[]): ReturnType<typeof _doc> {
-  return isDev() ? _doc(firestore, "dev_"+path, ...pathSegments) : _doc(firestore, path, ...pathSegments)
+  return _doc(firestore, (isDev() ? "dev_" : "") + path, ...pathSegments)
 }
 function collection(firestore: Firestore, path: string, ...pathSegments: string[]): ReturnType<typeof _collection> {
   try {
-    return isDev() ? _collection(firestore, "dev_"+path, ...pathSegments) : _collection(firestore, path, ...pathSegments)
+    return _collection(firestore, (isDev() ? "dev_" : "") + path, ...pathSegments)
   } catch (e) {
     console.error("collection", path, pathSegments, e)
     throw e
   }
 }
 function ref(storage: FirebaseStorage, url?: string | undefined): ReturnType<typeof _ref> {
-  return isDev() ? _ref(storage, "dev_"+url) : _ref(storage, url)
+  return _ref(storage, (isDev() ? "dev_" : "") + url)
 }
 
 /**
@@ -52,7 +52,7 @@ export async function addCircle(circleArg: Circle, id: string = uuidv4()) {
     ...pCircle,
   }
   await setDoc(doc(firestore, "circles", id), data)
-  return {...data, id}
+  return { ...data, id }
 }
 
 /** サークル情報を更新 */
@@ -64,7 +64,7 @@ export const updateCircle = addCircle
  */
 export async function getCircle(id: string) {
   const docRef = await getDoc(doc(firestore, "circles", id))
-  
+
   return circleWithID.parse({
     ...docRef.data(),
     id: docRef.id,
@@ -102,7 +102,7 @@ export async function addItem(itemArg: Item, idArg?: string): Promise<ItemWithID
     ...pItem,
   }
   await setDoc(doc(firestore, "items", id), data)
-  return {...data, id}
+  return { ...data, id }
 }
 
 /**
