@@ -11,7 +11,7 @@ interface PriorityProps {
 export default function Priority(props: PriorityProps) {
   return (
     <div className="rating">
-      {<For each={Array.from({ length: 5 })}>{(_, currentPriority) => (
+      {Array.from({ length: 5 }).map((_, currentPriority) => (
         <input
           key={`${props.name}-${currentPriority}`}
           type="radio"
@@ -23,7 +23,7 @@ export default function Priority(props: PriorityProps) {
           disabled={props.disabled}
           readOnly={props.readOnly}
         />
-      )}</For>}
+      ))}
     </div>
   )
 }

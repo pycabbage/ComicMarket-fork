@@ -89,13 +89,13 @@ export default function Layout({ center = false, ...props }: LayoutProps) {
         <label htmlFor="page-drawer" className="drawer-overlay"></label>
         <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
           {
-            <For each={menuItems}>{(item, index) => (
+            menuItems.map((item, index) => (
               <li key={`${index}-${item.title}`}>
                 <Link href={item.href} className="link">
                   {item.title}
                 </Link>
               </li>
-            )}</For>
+            ))
           }
         </ul>
       </div>

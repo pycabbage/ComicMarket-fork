@@ -4,7 +4,7 @@ const million = require('million/compiler');
 const isProd = process.env.NODE_ENV === "production"
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: !isProd,
+  enabled: isProd,
   openAnalyzer: false
 })
 const withPWA = require("next-pwa")({
@@ -111,6 +111,8 @@ module.exports = million.next(
     }
   ) : baConfig,
   {
-    auto: true,
+    mode: "vdom",
+    // auto: true,
+    // mute: true,
   }
 );

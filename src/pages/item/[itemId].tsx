@@ -58,7 +58,7 @@ export default function Item(props: ItemProps) {
         </thead>
         <tbody>
           {
-            <For each={item.users}>{(user, i) => (
+            item.users.map((user, i) => (
               <tr key={i}>
                 <td>
                   <Link href={`/user/${user.uid}`}>
@@ -98,7 +98,7 @@ export default function Item(props: ItemProps) {
                   </button>
                 </td>
               </tr>
-            )}</For>
+            ))
           }
         </tbody>
       </table>

@@ -132,7 +132,7 @@ export default function User(props: UserProps) {
                 データなし
               </td>
             </tr>
-            : <For each={items}>{(item, i) => <For each={item.users}>{(user, j) => user.uid == props.user.id ? (
+            : items.map((item, i) => item.users.map((user, j) => user.uid == props.user.id ? (
               <tr key={`${i}-${j}`}>
                 <td>
                   <Link href={`/circle/${item.circleId}`}>
@@ -193,7 +193,7 @@ export default function User(props: UserProps) {
                   </button>
                 </td>
               </tr>
-            ) : <></>}</For>}</For>}
+            ) : null))}
         </tbody>
       </table>
     </div>

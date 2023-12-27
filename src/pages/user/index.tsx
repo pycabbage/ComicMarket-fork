@@ -40,7 +40,7 @@ export default function User(props: UserProps) {
                   データなし
                 </td>
               </tr>
-              : <For each={props.users}>{(user, i) => (
+              : props.users.map((user, i) => (
                 <tr key={i}>
                   <td className="avatar w-16 mr-0 rounded-full">
                     {user.photoURL &&
@@ -59,7 +59,7 @@ export default function User(props: UserProps) {
                     </Link>
                   </td>
                 </tr>
-              )}</For>
+              ))
           }
         </tbody>
       </table>

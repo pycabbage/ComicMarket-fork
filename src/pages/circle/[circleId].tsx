@@ -170,8 +170,8 @@ export default function Circle(props: ItemProps) {
                 No data found
               </td>
             </tr>
-            : <For each={items}>{
-              (item, i) => <For each={item.users}>{
+            : items.map(
+              (item, i) => item.users.map(
                 (user, j) => (
                   <tr key={`${i}-${j}`}>
                     <td>
@@ -202,8 +202,8 @@ export default function Circle(props: ItemProps) {
                     </td>
                   </tr>
                 )
-              }</For>
-            }</For>
+              )
+            )
           }
         </tbody>
       </table>

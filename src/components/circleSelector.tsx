@@ -1,7 +1,6 @@
-import { CircleCondition, CircleWithID } from "@/lib/types";
+import type { CircleCondition, CircleWithID } from "@/lib/types";
 import { circleWingToString, filterDeleted, isMatchCondition } from "@/lib/utils";
-import { For } from "million/react";
-import { createContext, useContext, useState, useRef, useEffect, Fragment, ReactNode, Dispatch, SetStateAction } from "react";
+import { createContext, useContext, useState, useRef, useEffect, Fragment, Dispatch, SetStateAction } from "react";
 
 interface CircleSelectorComponentProps {
   circles: CircleWithID[];
@@ -136,7 +135,7 @@ export function CircleSelectorComponent(props: CircleSelectorComponentProps) {
           <div className="w-1/5 flex justify-center">出店場所</div>
         </li>
 
-        {circles.length > 0 ? <For each={circles}>{(c, i) => (
+        {circles.length > 0 ? circles.map((c, i) => (
           <li
             className="flex flex-row mt-2 rounded-lg hover:bg-neutral-focus active:bg-neutral transition-[background-color] p-2 cursor-pointer select-none"
             onClick={() => {
@@ -151,7 +150,7 @@ export function CircleSelectorComponent(props: CircleSelectorComponentProps) {
             </div>
             <div className="w-1/5 flex justify-center">{c.place}</div>
           </li>
-        )}</For> : <div className="flex justify-center my-6">No Data</div>}
+        )) : <div className="flex justify-center my-6">No Data</div>}
       </ul>
     </FormDataContext.Provider>
   )

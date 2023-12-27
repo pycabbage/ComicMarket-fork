@@ -54,7 +54,7 @@ export default function ListCircle(props: ListCircleProps) {
           </thead>
           <tbody>
             {
-              <For each={circles}>{((c, i) => (
+              circles.map(((c, i) => (
                 <tr className="" key={i}>
                   <td className="">
                     <Link href={`/circle/${c.id}`} className={`w-full ${c.deleted && "text-neutral-500"}`}>
@@ -78,7 +78,7 @@ export default function ListCircle(props: ListCircleProps) {
                     }
                   </td>
                 </tr>
-              ))}</For>}
+              )))}
           </tbody>
         </table>
       </div>
