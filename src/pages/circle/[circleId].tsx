@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
 import Priority from "@/components/priority";
-import { addCircle, getAllItems, getAllUsers, getCircle, getURL, removeCircle, updateCircle, updatePriority } from "@/lib/db";
+import { addCircle, getAllItems, getAllUsers, getCircle, getURL, removeCircle, updateCircle, updatePriority, uploadImage } from "@/lib/db";
 import { CircleWithID, ItemWithID, UserdataWithID, circleWithID } from "@/lib/types";
 import { circleWingToString } from "@/lib/utils";
 import { NextPageContext } from "next";
@@ -39,11 +39,13 @@ export default function Circle(props: ItemProps) {
   const [sending, setSending] = useState(false)
   const circleEditDialogRef = useRef<HTMLDialogElement>(null)
 
+  const [fileUploading, setFileUploading] = useState(false)
+
   return (<Layout title="サークル詳細">
     <Head>
       <title>{`${circle.name} | サークル詳細`}</title>
     </Head>
-    <div className="flex flex-row">
+    <div className="flex flex-row gap-4">
       <div className="w-1/4 flex flex-col justify-center items-center">
         <input
           type="text"
@@ -152,6 +154,37 @@ export default function Circle(props: ItemProps) {
       removeCircle(circle.id)
       router.push(`/circle/list`)
     }}>サークル削除</button>
+
+    {
+      !props.menuImageURL
+        ? <form action="" className="mt-2">
+          <label htmlFor="file">{fileUploading ? "お品書きアップロード中" : "お品書き追加"}</label>
+          <input
+            type="file"
+            name="circleImage"
+            accept="image/*"
+            className="file-input file-input-bordered ml-2"
+            aria-label={fileUploading ? "お品書きアップロード中" : "お品書き追加"}
+            disabled={fileUploading}
+            onChange={async e => {
+              console.log("onChange")
+              if (e.target.files && e.target.files?.length > 0) {
+                const file = e.target.files[0]
+                setFileUploading(true)
+                const fullPath = await uploadImage(file, props.circle.id)
+                const { id: _id, ...circleWithoutId } = props.circle
+                const updatedCircle = await updateCircle({
+                  ...circleWithoutId,
+                  menuImagePath: fullPath,
+                }, props.circle.id)
+                setFileUploading(false)
+                router.push(`/circle/${updatedCircle.id}`)
+              }
+            }}
+          />
+        </form>
+        : null
+    }
 
     <div className="overflow-x-auto">
       <table className="table">

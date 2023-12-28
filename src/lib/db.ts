@@ -36,7 +36,9 @@ function collection(firestore: Firestore, path: string, ...pathSegments: string[
   }
 }
 function ref(storage: FirebaseStorage, url?: string | undefined): ReturnType<typeof _ref> {
-  return _ref(storage, (isDev() ? "dev_" : "") + url)
+  // \/?(dev_)?[URL] -> [URL]
+  const pureURL = url?.match(/\/?(dev_)?(.*)/)?.[2]
+  return _ref(storage, "/" + (isDev() ? "dev_" : "") + pureURL)
 }
 
 /**
