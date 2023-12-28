@@ -16,7 +16,7 @@ import { Circle, CircleWithID, Item, ItemWithID, Userdata, UserdataWithID, circl
 import { z } from "zod";
 
 function isDev() {
-  // return false
+  return false
   const condition = process.env.NODE_ENV === "development"
   if (condition) {
     console.log("[db] firestore now dev mode")
@@ -106,6 +106,8 @@ export async function addItem(itemArg: Item, idArg?: string): Promise<ItemWithID
   await setDoc(doc(firestore, "items", id), data)
   return { ...data, id }
 }
+
+export const updateItem = addItem
 
 /**
  * 購入物に購入者を追加

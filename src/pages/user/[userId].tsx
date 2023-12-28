@@ -121,7 +121,7 @@ export default function User(props: UserProps) {
             <th>個数</th>
             <th>単価</th>
             <th>小計</th>
-            <th>購入者ID</th>
+            {/* <th>購入者ID</th> */}
             <th>削除</th>
           </tr>
         </thead>
@@ -176,7 +176,7 @@ export default function User(props: UserProps) {
                 <td>{user.count}</td>
                 <td>{Number(item.price).toLocaleString()}</td>
                 <td>{(Number(item.price) * Number(user.count)).toLocaleString()}</td>
-                <td>{user.uid}</td>
+                {/* <td>{user.uid}</td> */}
                 <td>
                   <button className="btn btn-outline btn-sm btn-square btn-ghost" onClick={e => {
                     e.preventDefault()
