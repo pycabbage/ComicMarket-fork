@@ -13,7 +13,7 @@ type ResponseData = /*{
     uid: string;
     count: number;
     priority: number;
-  }
+  }[]
 // };
 
 export default async function handler(
