@@ -23,6 +23,7 @@ Add.getInitialProps = async (ctx: NextPageContext): Promise<AddProps> => {
 }
 
 export default function Add(props: AddProps) {
+  return <Layout title="購入物登録（締め切りました）" />
   const [step, setStep] = useState<number>(1)
   const [circle, setCircle] = useState<CircleWithID | null>(null)
   const [item, setItem] = useState<ItemWithID | null>(null)
