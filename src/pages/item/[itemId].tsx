@@ -1,10 +1,9 @@
 import TrashIcon from "@/components/TrashIcon";
 import Layout from "@/components/layout";
 import Priority from "@/components/priority";
-import { addItem, getAllUsers, getCircle, getItem, removeBuyer, updateItem, updatePriority } from "@/lib/db";
+import { getAllUsers, getCircle, getItem, removeBuyer, updateItem, updatePriority } from "@/lib/db";
 import { CircleWithID, ItemWithID, UserdataWithID } from "@/lib/types";
 import { circleWingToString } from "@/lib/utils";
-import { For } from "million/react";
 import { NextPageContext } from "next";
 import Head from "next/head";
 import Link from "next/link";
