@@ -156,9 +156,9 @@ export default function Circle(props: ItemProps) {
     }}>サークル削除</button>
 
     {
-      !props.menuImageURL
+      true
         ? <form action="" className="mt-2">
-          <label htmlFor="file">{fileUploading ? "お品書きアップロード中" : "お品書き追加"}</label>
+          <label htmlFor="file">{fileUploading ? "お品書きアップロード中" : "お品書き追加/更新"}</label>
           <input
             type="file"
             name="circleImage"
