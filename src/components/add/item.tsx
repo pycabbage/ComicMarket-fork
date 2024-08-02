@@ -62,7 +62,7 @@ export default function AddItem(props: AddItemProps) {
                 表記ゆれがある場合は、一番簡潔かつ判別できる表記を使用してください。<br />
                 例 :
                 <ul className="list-disc ml-4">
-                  <li>C103新刊セット → 新刊セット</li>
+                  <li>C104新刊セット → 新刊セット</li>
                 </ul>
                 また、入力前に上のボタンから既に登録された購入物がないかご確認ください。
               </span>

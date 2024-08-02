@@ -24,6 +24,13 @@ function isDev() {
   return condition
 }
 
+async function measure<R>(func: () => Promise<R>, name: string): Promise<R> {
+  const start = Date.now()
+  const result = await func()
+  console.log(`[db] [${name}] took ${Date.now() - start}ms`)
+  return result
+}
+
 function doc(firestore: Firestore, path: string, ...pathSegments: string[]): ReturnType<typeof _doc> {
   return _doc(firestore, (isDev() ? "dev_" : "") + path, ...pathSegments)
 }
@@ -76,13 +83,15 @@ export async function getCircle(id: string) {
 /**
  * 全てのサークル情報を取得
  */
-export async function getAllCircles(): Promise<CircleWithID[]> {
+export async function _getAllCircles(): Promise<CircleWithID[]> {
   const data = (await getDocs(collection(firestore, "circles"))).docs.map(doc => ({
     ...(doc.data() as Circle),
     id: doc.id,
   }))
   return data
 }
+
+export const getAllCircles = () => measure(_getAllCircles, "getAllCircles")
 
 export async function removeCircle(id: string) {
   const circle = await getCircle(id)
@@ -159,7 +168,7 @@ export async function updatePriority(itemId: ItemWithID["id"], userId: string, p
 /**
  * 全ての購入物情報を取得
  */
-export async function getAllItems(circleId?: Item["circleId"]): Promise<ItemWithID[]> {
+export async function _getAllItems(circleId?: Item["circleId"]): Promise<ItemWithID[]> {
   if (circleId) {
     const data: ItemWithID[] = (await getDocs(query(collection(firestore, "items"), where("circleId", "==", circleId)))).docs.map(doc => ({
       ...(doc.data() as Item),
@@ -174,6 +183,8 @@ export async function getAllItems(circleId?: Item["circleId"]): Promise<ItemWith
     return data
   }
 }
+
+export const getAllItems = (circleId?: Item["circleId"]) => measure(() => _getAllItems(circleId), "getAllItems")
 
 /**
  * IDから購入物情報を取得
@@ -218,13 +229,15 @@ export async function updateUserName(id: string, name: string) {
  * IDから購入物情報を取得
  * @param id 購入物ID
  */
-export async function getUser(id: string): Promise<UserdataWithID> {
+export async function _getUser(id: string): Promise<UserdataWithID> {
   const docRef = await getDoc(doc(firestore, "users", id))
   return {
     ...docRef.data() as Userdata,
     id,
   }
 }
+
+export const getUser = (id: string) => measure(() => _getUser(id), "getUser")
 
 /**
  * 全ての購入物情報を取得
