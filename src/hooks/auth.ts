@@ -44,7 +44,7 @@ export const useAuth = (auth: Auth = _auth) => {
   useEffect(() => {
     onAuthStateChanged(auth, user => {
       setUser(user)
-      console.debug("onAuthStateChanged", user)
+      // console.debug("onAuthStateChanged", user)
       if (user) {
         setState('logined')
       } else {

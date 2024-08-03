@@ -29,12 +29,12 @@ Sentry.init({
   integrations: [
     new Sentry.Replay({
       // Additional Replay configuration goes in here, for example:
-      maskAllText: true,
-      blockAllMedia: true,
+      maskAllText: false,
+      blockAllMedia: false,
     }),
     new Sentry.Feedback({
       // Additional SDK configuration goes in here, for example:
-      colorScheme: "light",
+      colorScheme: "system",
     }),
     new Sentry.BrowserProfilingIntegration(),
   ],
