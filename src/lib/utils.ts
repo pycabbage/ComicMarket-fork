@@ -112,6 +112,8 @@ export function sortCircleByDP(circles: CircleWithID[]): CircleWithID[] {
 
 /**
  * 購入物をサークルの日付と場所でソート
+ * @param items 購入物
+ * @param circles サークル
  */
 export function sortItemByDP(items: ItemWithID[], circles: CircleWithID[]): ItemWithID[] {
   return items.sort((a, b) => {
