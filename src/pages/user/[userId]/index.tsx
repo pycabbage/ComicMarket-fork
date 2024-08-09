@@ -117,7 +117,6 @@ export default function User(props: UserProps) {
         </div>
 
         <div className="">
-          foo
         </div>
       </div>
 

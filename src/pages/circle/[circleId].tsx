@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
 import Priority from "@/components/priority";
-import { addCircle, getAllItems, getAllUsers, getCircle, getURL, removeCircle, updateCircle, updatePriority, uploadImage } from "@/lib/db";
+import { getAllItems, getAllUsers, getCircle, getURL, removeCircle, updateCircle, updatePriority, uploadImage } from "@/lib/db";
 import { CircleWithID, ItemWithID, UserdataWithID, circleWithID } from "@/lib/types";
 import { circleWingToString } from "@/lib/utils";
 import { NextPageContext } from "next";
@@ -9,7 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useRef, useState } from "react";
-import { For } from 'million/react';
 
 interface ItemProps {
   circle: CircleWithID;
@@ -50,6 +49,7 @@ export default function Circle(props: ItemProps) {
         <input
           type="text"
           className="input text-4xl text-center"
+          aria-label="サークル名"
           defaultValue={circle.name}
           onChange={e => {
             const { value } = e.currentTarget

@@ -71,14 +71,18 @@ export const updateCircle = addCircle
  * IDからサークル情報を取得
  * @param id サークルID
  */
-export async function getCircle(id: string) {
+export async function _getCircle(id: string) {
   const docRef = await getDoc(doc(firestore, "circles", id))
 
-  return circleWithID.parse({
+  const data = circleWithID.parse({
     ...docRef.data(),
     id: docRef.id,
   })
+  console.log("getCircle", data)
+  return data
 }
+
+export const getCircle = (id: string) => measure(() => _getCircle(id), `getCircle:${id}`)
 
 /**
  * 全てのサークル情報を取得
