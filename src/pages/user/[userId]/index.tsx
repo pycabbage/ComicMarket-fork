@@ -68,6 +68,8 @@ export default function User(props: UserProps) {
   const [items, setItems] = useState<ItemWithID[]>(sortedItems);
   const [sending, setSending] = useState(false);
 
+  const [selectedItems, setSelectedItems] = useState<ItemWithID[]>([]);
+
   useEffect(() => {
     console.log("sortKey", sortKey);
     setItems((i) =>
@@ -102,7 +104,7 @@ export default function User(props: UserProps) {
 
       <div className="mt-12 flex-col">
         <div className="">
-          合計金額:
+          合計金額 :{" "}
           {items
             .map((item) => {
               const { price } = item;
@@ -117,6 +119,7 @@ export default function User(props: UserProps) {
         </div>
 
         <div className="">
+          絞り込み中合計{"("}{selectedItems.length}件{")"} : {selectedItems.map(item => item.price * (item.users.find(u => u.uid === props.user.id)?.count ?? 0)).reduce((a, b) => a + b, 0).toLocaleString()}円
         </div>
       </div>
 
@@ -137,6 +140,7 @@ export default function User(props: UserProps) {
         <table className="table">
           <thead>
             <tr>
+              <th>購入金額絞り込み</th>
               <th>サークル</th>
               <th
                 className="btn btn-sm"
@@ -174,6 +178,21 @@ export default function User(props: UserProps) {
                 item.users.map((user, j) =>
                   user.uid == props.user.id ? (
                     <tr key={`${i}-${j}`}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          className="checkbox checkbox-lg"
+                          aria-label="選択して金額絞り込み"
+                          onChange={e => {
+                            console.log(e.target.checked);
+                            if (e.target.checked) {
+                              setSelectedItems(prev => [...prev, item]);
+                            } else {
+                              setSelectedItems(prev => prev.filter(i => i.id !== item.id));
+                            }
+                          }}
+                        />
+                      </td>
                       <td>
                         <Link href={`/circle/${item.circleId}`}>
                           {((): string => {
